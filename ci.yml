@@ -1,0 +1,26 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.9", "3.11", "3.13"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - run: pip install -e ".[dev]"
+      - run: pytest -q
+      - name: Safe example passes the safety gate
+        run: m365ai check examples/safe-teams-phone-report.ps1 --fail-on high
+      - name: Risky example is blocked by the safety gate
+        run: |
+          if m365ai check examples/risky-cleanup.ps1 --fail-on high; then
+            echo "Expected the risky script to fail the gate" && exit 1
+          fi

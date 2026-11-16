@@ -1,0 +1,29 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "m365-powershell-ai"
+version = "0.1.0"
+description = "AI assistant for Microsoft 365 admins: write, explain and safety-check PowerShell for Teams, Exchange Online and Entra ID."
+readme = "README.md"
+requires-python = ">=3.9"
+license = { text = "MIT" }
+authors = [{ name = "Umair Rishi" }]
+keywords = ["microsoft-365", "powershell", "teams", "exchange-online", "entra-id", "ai", "llm", "security"]
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "License :: OSI Approved :: MIT License",
+  "Topic :: System :: Systems Administration",
+  "Environment :: Console",
+]
+dependencies = []
+
+[project.optional-dependencies]
+dev = ["pytest>=7"]
+
+[project.scripts]
+m365ai = "m365ai.cli:main"
+
+[tool.setuptools]
+packages = ["m365ai"]
